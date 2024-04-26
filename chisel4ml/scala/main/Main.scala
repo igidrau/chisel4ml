@@ -46,7 +46,7 @@ object Chisel4mlServer {
       case versionRegex(major, minor, patch, null, null) => s"$major.$minor.$patch"
       case versionRegex(major, minor, patch, revision, gitTag) =>
         s"$major.$minor.${patch.toInt + 1}.dev$revision+$gitTag"
-      case _ => throw new Exception(s"Parse error on git describe string: $gitDescribe")
+      case _ => s"$gitDescribe"//throw new Exception(s"Parse error on git describe string: $gitDescribe")
     }
   }
   private var server: Chisel4mlServer = _
