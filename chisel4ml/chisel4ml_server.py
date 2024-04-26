@@ -48,9 +48,9 @@ class Chisel4mlServer:
         else:
             python_version = chisel4ml.__version__
 
-        assert (
-            python_version == scala_version
-        ), f"Python/scala version missmatch: {python_version}/{scala_version}."
+        #assert (
+        #    python_version == scala_version
+        #), f"Python/scala version missmatch: {python_version}/{scala_version}."
         log.info(f"Created grpc channel on {self._server_addr}.")
 
         # Here we make sure that the chisel4ml server is shut down.

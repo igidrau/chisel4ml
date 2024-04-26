@@ -73,10 +73,8 @@ object Chisel4mlServer {
         if (!os.exists(config.tempDir)) {
           os.makeDir(config.tempDir, "rwxrwxrw-")
         }
-        if (os.list(config.tempDir).length != 0) {
-          throw new Exception(s"Directory ${config.tempDir} is not empty.")
-        }
-        server = new Chisel4mlServer(ExecutionContext.global, tempDir = config.tempDir, port = config.port)
+        val firstID = os.list(config.tempDir).length
+        server = new Chisel4mlServer(ExecutionContext.global, tempDir = config.tempDir, port = config.port, firstID = firstID)
         server.start()
         server.blockUntilShutdown()
       }
@@ -88,13 +86,13 @@ object Chisel4mlServer {
 /** The server implementation based on gRPC.
   *
   *  Implementation of the gRPC based Chisel4ml server.  It implements the services as defined by gRPC in the
-  *  service.proto file. It also has conveinance functions for starting and stoping the server.
+  *  service.proto file. It also has convenience functions for starting and stoping the server.
   */
-class Chisel4mlServer(executionContext: ExecutionContext, tempDir: os.Path, port: Int) { self =>
+class Chisel4mlServer(executionContext: ExecutionContext, tempDir: os.Path, port: Int, firstID: Int = 0) { self =>
   private[this] var server: Server = null
   private var circuits =
     Map[Int, Circuit[Module with HasLBIRStream[Vec[UInt]]]]() // Holds the circuit and simulation object
-  private var nextId: Int = 0
+  private var nextId: Int = firstID
   val logger = LoggerFactory.getLogger(classOf[Chisel4mlServer])
 
   private def start(): Unit = {
