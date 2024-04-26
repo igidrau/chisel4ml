@@ -37,7 +37,7 @@ object chisel4ml extends BaseChiselModule with ScalaPBModule { m =>
     def sources = T.sources(Seq(PathRef(millSourcePath / "chisel4ml" / "scala")))
 
     def gitInfo = T.input {
-        os.proc("git", "describe", "--tags").call().out.text()
+        os.proc("git", "describe", "--tags", "--always").call().out.text()
     }
 
     def gitInfoFileResourceDir = T {
