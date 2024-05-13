@@ -32,12 +32,17 @@ import chisel4ml.logging.HasParameterLogging
 
 /** A sequential processing element for convolutions.
   *
-  * This hardware module can handle two-dimensional convolutions of various types, and also can adjust the aritmetic
-  * units depending on the quantization type. It does not take advantage of sparsity. It uses the filter stationary
-  * approach and streams in the activations for each filter sequentialy. The compute unit computes one whole neuron at
-  * once. The reason for this is that it simplifies the design, which would otherwise require complex control logic /
-  * program code. This design, of course, comes at a price of utilization of the arithmetic units, which is low. But
-  * thanks to the low bitwidths of parameters this should be an acceptable trade-off.
+  * This hardware module can handle two-dimensional convolutions
+  * of various types, and also can adjust the aritmetic units
+  * depending on the quantization type. It does not take advantage
+  * of sparsity. It uses the filter stationary approach and streams
+  * in the activations for each filter sequentialy. The compute unit
+  * computes one whole neuron at once. The reason for this is that
+  * it simplifies the design, which would otherwise require complex
+  * control logic / program code. This design, of course, comes at a
+  * price of utilization of the arithmetic units, which is low. But
+  * thanks to the low bitwidths of parameters this should be an
+  * acceptable trade-off.
   */
 
 case object Conv2DConfigField extends Field[Conv2DConfig]

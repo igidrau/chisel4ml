@@ -10,9 +10,11 @@ import chisel4ml.HasLBIRStreamParameters
 import lbir.Conv2DConfig
 
 /* InputActivationSubsystem
- * Handles the input data stream, and stores it in to a input buffer. It also "rolls" through the input activation
- * as a convolution opperation would; and does so continously until the next signal is asserted. This allows looping
- * through the input to convolve it with more than one kernel.
+ * Handles the input data stream, and stores it in to a input buffer.
+ * It also "rolls" through the input activation as a convolution
+ * opperation would; and does so continously until the next signal is
+ * asserted. This allows looping through the input to convolve it with
+ * more than one kernel.
  */
 class InputActivationsSubsystem[I <: Bits](implicit val p: Parameters)
     extends Module
@@ -45,7 +47,7 @@ class InputActivationsSubsystem[I <: Bits](implicit val p: Parameters)
     state === InSubState.sFULL && isLastActiveWindow && io.activeDone
   )
 
-  /* INPUT STREAM LOGIC*/
+  /* INPUT STREAM LOGIC */
   io.inStream.ready := state =/= InSubState.sFULL
   actMem.io.write.get.address := actMemCounter
   actMem.io.write.get.data := io.inStream.bits.asUInt
