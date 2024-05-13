@@ -77,7 +77,6 @@ class ProcessingElementDynamic[I <: Bits, W <: Bits, M <: Bits, A <: Bits: Ring,
   val out = IO(Output(Vec(layer.output.width, layer.output.getType[O])))
 
   val shift:   Seq[Int] = layer.kernel.dtype.shift
-  val neurons = Seq[DynamicNeuron]()
 
   for (i <- 0 until layer.output.shape(0)) {
     val muls = VecInit(in.zip(weights(i)).map { case (i, w) => qc.mul(i, w) })
