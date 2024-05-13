@@ -21,6 +21,8 @@ import lbir.LayerWrap
 
 case object LBIRNumBeatsIn extends Field[Int]
 case object LBIRNumBeatsOut extends Field[Int]
+case object LBIRNumBeatsWeight extends Field[Int]
+case object LBIRNumBeatsBias extends Field[Int]
 
 trait HasLBIRConfig[+T <: LayerWrap] {
   val cfg: T
@@ -36,9 +38,21 @@ trait HasLBIRStreamParameters[T <: LayerWrap] extends HasLBIRConfig[T] {
   require(numBeatsOut > 0)
 }
 
+trait HasLBIRStreamParametersKernel[T <: LayerWrap] extends HasLBIRStreamParameters[T] {
+  val numBeatsWeight = p(LBIRNumBeatsWeight)
+  val numBeatsBias = p(LBIRNumBeatsBias)
+  def weightWidth = numBeatsWeight * cfg.kernel.dtype.bitwidth
+  def biasWidth = numBeatsBias * cfg.thresh.dtype.bitwidth
+}
+
 trait HasLBIRStream[T <: Data] {
   val inStream:  AXIStreamIO[T]
   val outStream: AXIStreamIO[T]
+}
+
+trait HasLBIRStreamKernel[T <: Data] extends HasLBIRStream[T] {
+  val weightStream: AXIStreamIO[T]
+  val biasStream: AXIStreamIO[T]
 }
 
 trait LBIRStreamSimple {

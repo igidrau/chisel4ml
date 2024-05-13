@@ -87,6 +87,7 @@ message DenseConfig {
     QTensor output = 4;
     Activation activation = 5;
     RoundingMode rounding_mode = 6;
+    uint32 parallel_lines = 7;
 }
 
 message Conv2DConfig {
